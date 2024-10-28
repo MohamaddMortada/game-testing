@@ -150,20 +150,35 @@ function create() {
 
     this.physics.add.collider(player, walls);
     this.physics.add.collider(player, boxes);
-    
-   /* bots.forEach(b => this.physics.add.collider(b, walls));
-    bots.forEach(b => this.physics.add.collider(b, boxes));*/
+    this.physics.add.collider(player, bots);
 
+
+
+    bots.getChildren().forEach(bot => {this.physics.add.collider(bot, walls)});
+    bots.getChildren().forEach(bot => {this.physics.add.collider(bot, boxes)});
 
     this.physics.add.overlap(player, coins, collectCoin, null, this);
 
     
     scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#fff' });
     cursors = this.input.keyboard.createCursorKeys();
+    
 }
 
 function update() {
-    
+    bots.getChildren().forEach(bot=>{
+        const moveDirection = Phaser.Math.Between(0,1);
+        if (moveDirection === 0)setTimeout(() => {
+            bot.setVelocityX( 160);
+            bot.setVelocityY(0);
+        }, 3000); 
+        if (moveDirection === 1) setTimeout(() => {
+            bot.setVelocityX( -160);
+           bot.setVelocityY(0);
+        }, 3000);
+
+
+    });
     // Player movement
     if (cursors.left.isDown) {
         player.setVelocityX(-160);
